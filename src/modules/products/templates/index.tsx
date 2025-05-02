@@ -10,6 +10,7 @@ import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-relat
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
 import { HttpTypes } from "@medusajs/types"
+import { Heading } from "@medusajs/ui"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
@@ -28,19 +29,40 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
   return (
     <>
+      <div className="content-container py-2">
+        <nav className="flex text-sm">
+          <a href="/" className="text-ui-fg-muted hover:text-ui-fg-base">Home</a>
+          <span className="mx-2 text-ui-fg-muted">/</span>
+          <a href="/shop" className="text-ui-fg-muted hover:text-ui-fg-base">Shop By Category</a>
+          {product.collection && (
+            <>
+              <span className="mx-2 text-ui-fg-muted">/</span>
+              <a
+                href={`/collections/${product.collection.handle}`}
+                className="text-ui-fg-muted hover:text-ui-fg-base"
+              >
+                {product.collection.title}
+              </a>
+            </>
+          )}
+          <span className="mx-2 text-ui-fg-muted">/</span>
+          <span className="text-ui-fg-base">{product.title}</span>
+        </nav>
+      </div>
+
       <div
-        className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
+        className="content-container flex flex-col small:flex-row gap-x-8 py-6 relative"
         data-testid="product-container"
       >
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-          <ProductInfo product={product} />
-          <ProductTabs product={product} />
-        </div>
-        <div className="block w-full relative">
+        {/* Left side - Product Images */}
+        <div className="flex-1 max-w-[50%]">
           <ImageGallery images={product?.images || []} />
         </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
-          <ProductOnboardingCta />
+
+        {/* Right side - Product Info and Actions */}
+        <div className="flex-1 flex flex-col gap-y-6">
+          <ProductInfo product={product} />
+
           <Suspense
             fallback={
               <ProductActions
@@ -52,12 +74,24 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           >
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
+
+          <ProductOnboardingCta />
         </div>
       </div>
+
+      {/* Product Description Tabs */}
+      <div className="content-container my-8">
+        <ProductTabs product={product} />
+      </div>
+
+      {/* Related Products */}
       <div
-        className="content-container my-16 small:my-32"
+        className="content-container my-16"
         data-testid="related-products-container"
       >
+        <Heading level="h2" className="text-2xl mb-6">
+          Recently Viewed Products
+        </Heading>
         <Suspense fallback={<SkeletonRelatedProducts />}>
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>
@@ -67,3 +101,4 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 }
 
 export default ProductTemplate
+
