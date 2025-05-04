@@ -6,6 +6,10 @@ import { HttpTypes } from "@medusajs/types"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
+// import { StoreGetProductsParams } from "@medusajs/medusa"
+// import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+// import { getClient } from "@lib/data/client"
+// import { mockProducts } from "./mock-products"
 
 export const listProducts = async ({
   pageParam = 1,
@@ -134,3 +138,23 @@ export const listProductsWithSort = async ({
     queryParams,
   }
 }
+
+// Function to determine if we're in development mode
+// const isDev = process.env.NODE_ENV === "development"
+
+// export const getProductsList = async (
+//   params: StoreGetProductsParams = {}
+// ): Promise<{ products: PricedProduct[] }> => {
+//   // Use mock data in development mode
+//   if (isDev) {
+//     return {
+//       products: mockProducts as unknown as PricedProduct[],
+//     }
+//   }
+
+//   // Use real data in production
+//   const { products } = await getClient().products.list(params)
+//   return {
+//     products,
+//   }
+// }

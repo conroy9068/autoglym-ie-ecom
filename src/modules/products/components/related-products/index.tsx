@@ -27,7 +27,7 @@ export default async function RelatedProducts({
     queryParams.collection_id = [product.collection_id]
   }
   if (product.tags) {
-    queryParams.tag_id = product.tags
+    queryParams.tags = product.tags
       .map((t) => t.id)
       .filter(Boolean) as string[]
   }

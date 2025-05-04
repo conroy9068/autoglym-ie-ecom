@@ -33,7 +33,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         <nav className="flex text-sm">
           <a href="/" className="text-ui-fg-muted hover:text-ui-fg-base">Home</a>
           <span className="mx-2 text-ui-fg-muted">/</span>
-          <a href="/shop" className="text-ui-fg-muted hover:text-ui-fg-base">Shop By Category</a>
+          <a href="/store" className="text-ui-fg-muted hover:text-ui-fg-base">Shop By Category</a>
           {product.collection && (
             <>
               <span className="mx-2 text-ui-fg-muted">/</span>
@@ -51,16 +51,16 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       </div>
 
       <div
-        className="content-container flex flex-col small:flex-row gap-x-8 py-6 relative"
+        className="content-container flex flex-col small:flex-row gap-y-8 small:gap-x-10 py-6 relative"
         data-testid="product-container"
       >
         {/* Left side - Product Images */}
-        <div className="flex-1 max-w-[50%]">
+        <div className="flex-1 w-full small:max-w-[50%]">
           <ImageGallery images={product?.images || []} />
         </div>
 
         {/* Right side - Product Info and Actions */}
-        <div className="flex-1 flex flex-col gap-y-6">
+        <div className="flex-1 flex flex-col gap-y-8">
           <ProductInfo product={product} />
 
           <Suspense
@@ -75,13 +75,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
 
+          <div className="pt-2">
+            <ProductTabs product={product} />
+          </div>
+
           <ProductOnboardingCta />
         </div>
-      </div>
-
-      {/* Product Description Tabs */}
-      <div className="content-container my-8">
-        <ProductTabs product={product} />
       </div>
 
       {/* Related Products */}
